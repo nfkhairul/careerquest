@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Quest: Hot Air Balloon Challenge</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+            min-height: 100vh;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+        }
+        .bounce-gentle {
+            animation: bounceGentle 2.5s infinite ease-in-out;
+        }
+        @keyframes bounceGentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        .balloon-float {
+            animation: balloonFloat 4s infinite ease-in-out;
+        }
+        @keyframes balloonFloat {
+            0%, 100% { transform: translateY(0px) rotate(-1deg); }
+            50% { transform: translateY(-18px) rotate(1.5deg); }
+        }
+        .pulse-btn {
+            transition: all 0.2s ease;
+        }
+        .pulse-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .pulse-btn:active {
+            transform: scale(0.98);
+        }
+        .badge-glow {
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-12">
+
+    <!-- Top Navigation / Stats Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b-4 border-amber-400 px-4 py-3 shadow-md">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-3xl">🎈</span>
+                <div>
+                    <h1 class="text-xl font-bold text-indigo-900 leading-tight">CAREER QUEST</h1>
+                    <p class="text-xs font-semibold text-indigo-600">Form 4 English • Unit 1</p>
+                </div>
+            </div>
+
+            <!-- Player Status Badge -->
+            <div id="player-status-bar" class="hidden flex items-center space-x-4 bg-amber-100 px-4 py-1.5 rounded-full border-2 border-amber-400">
+                <div class="flex items-center space-x-2">
+                    <span id="player-avatar-icon" class="text-2xl">👤</span>
+                    <div>
+                        <p id="player-name-display" class="font-bold text-sm text-indigo-950">Student</p>
+                        <p id="player-role-display" class="text-xs text-amber-800 font-medium">Recruit</p>
+                    </div>
+                </div>
+                <div class="h-6 w-0.5 bg-amber-300"></div>
+                <div class="flex items-center space-x-1">
+                    <i class="fa-solid font-bold fa-star text-amber-500 text-lg"></i>
+                    <span id="player-xp" class="font-extrabold text-amber-900 text-base">0 XP</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto px-4 pt-6">
+
+        <!-- ================= STEP 0: LOGIN SCREEN ================= -->
+        <section id="screen-login" class="glass-card rounded-3xl p-6 md:p-10 my-4 text-center">
+            <div class="balloon-float inline-block mb-4">
+                <span class="text-7xl">🎈</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-indigo-900 mb-2">Welcome to Career Quest!</h2>
+            <p class="text-slate-600 font-medium mb-6 text-base md:text-lg">Learn about professions, justify your traits, and survive the Hot Air Balloon Challenge!</p>
+
+            <div class="max-w-md mx-auto bg-indigo-50/80 p-6 rounded-2xl border-2 border-indigo-200 mb-6 text-left">
+                <label for="student-name" class="block font-bold text-indigo-900 mb-2 text-sm">Enter Your Name to Begin:</label>
+                <input type="text" id="student-name" placeholder="e.g. Sarah / Adam" class="w-full px-4 py-3 rounded-xl border-2 border-indigo-300 focus:border-indigo-500 focus:outline-none text-lg font-bold text-indigo-900 shadow-inner mb-4">
+                
+                <label class="block font-bold text-indigo-900 mb-2 text-sm">Choose Your Avatar:</label>
+                <div class="grid grid-cols-4 gap-3 text-center">
+                    <button onclick="selectAvatar('👨‍🚒', this)" class="avatar-btn border-2 border-transparent p-3 bg-white rounded-xl text-3xl hover:bg-indigo-100 transition">👨‍🚒</button>
+                    <button onclick="selectAvatar('👩‍⚕️', this)" class="avatar-btn border-2 border-transparent p-3 bg-white rounded-xl text-3xl hover:bg-indigo-100 transition">👩‍⚕️</button>
+                    <button onclick="selectAvatar('⚽', this)" class="avatar-btn border-2 border-transparent p-3 bg-white rounded-xl text-3xl hover:bg-indigo-100 transition">⚽</button>
+                    <button onclick="selectAvatar('📚', this)" class="avatar-btn border-2 border-transparent p-3 bg-white rounded-xl text-3xl hover:bg-indigo-100 transition">📚</button>
+                </div>
+            </div>
+
+            <button onclick="startApp()" class="pulse-btn bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xl py-4 px-10 rounded-2xl shadow-lg border-b-4 border-emerald-700 flex items-center justify-center space-x-3 mx-auto">
+                <span>START MISSION</span>
+                <i class="fa-solid fa-rocket"></i>
+            </button>
+        </section>
+
+        <!-- PROGRESS BAR (Steps 1 to 4) -->
+        <div id="quest-progress" class="hidden mb-6">
+            <div class="flex justify-between items-center mb-2 px-2 font-bold text-white text-xs md:text-sm">
+                <span id="step-1-indicator" class="text-amber-300">1. Matching</span>
+                <span id="step-2-indicator" class="opacity-60">2. Career Pick</span>
+                <span id="step-3-indicator" class="opacity-60">3. Thought Doctor</span>
+                <span id="step-4-indicator" class="opacity-60">4. Balloon Game</span>
+            </div>
+            <div class="w-full bg-indigo-950/40 rounded-full h-3 border border-white/30 p-0.5">
+                <div id="progress-bar" class="bg-gradient-to-r from-amber-400 to-emerald-400 h-2 rounded-full transition-all duration-500" style="width: 25%"></div>
+            </div>
+        </div>
+
+        <!-- ================= STEP 1: VOCAB & TRAIT MATCHER ================= -->
+        <section id="screen-step1" class="hidden glass-card rounded-3xl p-6 md:p-8 my-4">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b-2 border-indigo-100">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-amber-400 text-amber-950 font-black rounded-2xl p-3 text-xl">01</div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-indigo-950">Profession & Characteristic Matcher</h2>
+                        <p class="text-xs md:text-sm text-slate-600">Match each profession with its key characteristic and reason!</p>
+                    </div>
+                </div>
+                <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1.5 rounded-full">Score: <span id="match-score">0</span>/4</span>
+            </div>
+
+            <!-- Matching Cards Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6" id="matching-cards">
+                <!-- Dynamically populated JS cards -->
+            </div>
+
+            <div class="flex justify-end">
+                <button id="next-step1-btn" disabled onclick="goToStep(2)" class="pulse-btn opacity-50 cursor-not-allowed bg-indigo-600 text-white font-extrabold px-8 py-3 rounded-2xl shadow-md border-b-4 border-indigo-800 flex items-center space-x-2">
+                    <span>Continue to Step 2</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 2: CAREER CHOICE & 3 TRAITS ================= -->
+        <section id="screen-step2" class="hidden glass-card rounded-3xl p-6 md:p-8 my-4">
+            <div class="flex items-center space-x-3 mb-4 pb-3 border-b-2 border-indigo-100">
+                <div class="bg-indigo-500 text-white font-black rounded-2xl p-3 text-xl">02</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-indigo-950">Choose Your Profession & Justify</h2>
+                    <p class="text-xs md:text-sm text-slate-600">Select the profession you would be best at and list 3 required characteristics!</p>
+                </div>
+            </div>
+
+            <!-- Profession Selection -->
+            <div class="mb-6">
+                <label class="block font-bold text-indigo-900 mb-3 text-sm">1. Select the profession you would be best at:</label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3" id="career-selector">
+                    <!-- Dynamic Buttons -->
+                </div>
+            </div>
+
+            <!-- 3 Characteristics Input -->
+            <div class="bg-indigo-50/70 p-5 rounded-2xl border-2 border-indigo-200 mb-6 space-y-4">
+                <p class="font-bold text-indigo-950 text-sm">2. Why are you suitable? Add 3 characteristics required for this job:</p>
+
+                <div>
+                    <label class="block text-xs font-bold text-indigo-800 mb-1">Characteristic 1 & Reason:</label>
+                    <div class="flex space-x-2">
+                        <select id="trait-1-select" class="bg-white border-2 border-indigo-200 rounded-xl px-3 py-2 text-sm font-semibold text-indigo-900 w-1/3">
+                            <option value="fit">Fit / Strong</option>
+                            <option value="calm">Calm / Patient</option>
+                            <option value="friendly">Friendly / Polite</option>
+                            <option value="brave">Brave / Courageous</option>
+                            <option value="organized">Organized</option>
+                            <option value="passionate">Passionate</option>
+                        </select>
+                        <input type="text" id="trait-1-reason" placeholder="because I need to... (e.g., help people in danger)" class="bg-white border-2 border-indigo-200 rounded-xl px-3 py-2 text-sm text-slate-800 w-2/3 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-indigo-800 mb-1">Characteristic 2 & Reason:</label>
+                    <div class="flex space-x-2">
+                        <select id="trait-2-select" class="bg-white border-2 border-indigo-200 rounded-xl px-3 py-2 text-sm font-semibold text-indigo-900 w-1/3">
+                            <option value="communicative">Good Speaker</option>
+                            <option value="hardworking">Hardworking</option>
+                            <option value="quick-thinking">Quick-thinking</option>
+                            <option value="responsible">Responsible</option>
+                            <option value="caring">Caring / Helpful</option>
+                        </select>
+                        <input type="text" id="trait-2-reason" placeholder="because it helps me to..." class="bg-white border-2 border-indigo-200 rounded-xl px-3 py-2 text-sm text-slate-800 w-2/3 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-indigo-800 mb-1">Characteristic 3 & Reason:</label>
+                    <div class="flex space-x-2">
+                        <select id="trait-3-select" class="bg-white border-2 border-indigo-200 rounded-xl px-3 py-2 text-sm font-semibold text-indigo-900 w-1/3">
+                            <option value="disciplined">Disciplined</option>
+                            <option value="creative">Creative</option>
+                            <option value="focused">Focused</option>
+                            <option value="confident">Confident</option>
+                            <option value="patient">Patient</option>
+                        </select>
+                        <input type="text" id="trait-3-reason" placeholder="so that I can..." class="bg-white border-2 border-indigo-200 rounded-xl px-3 py-2 text-sm text-slate-800 w-2/3 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Speech Scaffold Box -->
+            <div class="bg-amber-50 p-4 rounded-2xl border-2 border-amber-300 mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-amber-900 text-xs uppercase tracking-wider">🗣️ Your Speaking Pitch Frame:</span>
+                    <button onclick="readText('speaking-pitch-preview')" class="text-xs bg-amber-200 hover:bg-amber-300 text-amber-900 font-bold px-2.5 py-1 rounded-lg transition">
+                        <i class="fa-solid fa-volume-high mr-1"></i> Listen
+                    </button>
+                </div>
+                <p id="speaking-pitch-preview" class="text-slate-700 italic font-medium text-sm md:text-base leading-relaxed">
+                    "I would be best at being a [Choose Profession above] because I am..."
+                </p>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button onclick="goToStep(1)" class="text-slate-500 font-bold text-sm hover:underline">← Back</button>
+                <button onclick="submitStep2()" class="pulse-btn bg-indigo-600 text-white font-extrabold px-8 py-3 rounded-2xl shadow-md border-b-4 border-indigo-800 flex items-center space-x-2">
+                    <span>Lock In My Career & Continue</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 3: THOUGHT DOCTOR (COMPLEX QUESTIONS) ================= -->
+        <section id="screen-step3" class="hidden glass-card rounded-3xl p-6 md:p-8 my-4">
+            <div class="flex items-center space-x-3 mb-4 pb-3 border-b-2 border-indigo-100">
+                <div class="bg-purple-500 text-white font-black rounded-2xl p-3 text-xl">03</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-indigo-950">Thought Doctor: Complex Questions</h2>
+                    <p class="text-xs md:text-sm text-slate-600">Listen carefully and justify your answers to complex situation questions!</p>
+                </div>
+            </div>
+
+            <div class="space-y-6 mb-6">
+                <!-- Question 1 -->
+                <div class="bg-purple-50/80 p-5 rounded-2xl border-2 border-purple-200">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-purple-200 text-purple-900 font-bold text-xs px-2.5 py-1 rounded-md">QUESTION 1</span>
+                            <p id="q1-text" class="font-bold text-indigo-950 text-sm md:text-base">Explain why it is so important for an athlete to be passionate about what he/she does?</p>
+                        </div>
+                        <button onclick="readText('q1-text')" class="shrink-0 bg-purple-200 hover:bg-purple-300 text-purple-900 p-2 rounded-xl transition text-sm">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+
+                    <!-- Sentence Helper Chips -->
+                    <p class="text-xs text-purple-700 font-semibold mb-2">Click helper phrases to build your response:</p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <button onclick="appendChip('q1-answer', 'training is long and exhausting')" class="chip-btn bg-white hover:bg-purple-100 border border-purple-300 text-xs font-semibold px-2.5 py-1 rounded-lg">training is long and exhausting</button>
+                        <button onclick="appendChip('q1-answer', 'it helps them to overcome defeat')" class="chip-btn bg-white hover:bg-purple-100 border border-purple-300 text-xs font-semibold px-2.5 py-1 rounded-lg">it helps them overcome defeat</button>
+                        <button onclick="appendChip('q1-answer', 'they need high discipline every day')" class="chip-btn bg-white hover:bg-purple-100 border border-purple-300 text-xs font-semibold px-2.5 py-1 rounded-lg">they need high discipline</button>
+                    </div>
+
+                    <textarea id="q1-answer" rows="2" placeholder="Write or complete your justification here..." class="w-full p-3 rounded-xl border-2 border-purple-200 text-sm focus:outline-none focus:border-purple-500 font-medium text-slate-800"></textarea>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-indigo-50/80 p-5 rounded-2xl border-2 border-indigo-200">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-indigo-200 text-indigo-900 font-bold text-xs px-2.5 py-1 rounded-md">QUESTION 2</span>
+                            <p id="q2-text" class="font-bold text-indigo-950 text-sm md:text-base">Why would somebody who is anxious NOT make a good paramedic?</p>
+                        </div>
+                        <button onclick="readText('q2-text')" class="shrink-0 bg-indigo-200 hover:bg-indigo-300 text-indigo-900 p-2 rounded-xl transition text-sm">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+
+                    <p class="text-xs text-indigo-700 font-semibold mb-2">Click helper phrases to build your response:</p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <button onclick="appendChip('q2-answer', 'paramedics must stay calm in emergencies')" class="chip-btn bg-white hover:bg-indigo-100 border border-indigo-300 text-xs font-semibold px-2.5 py-1 rounded-lg">must stay calm in emergencies</button>
+                        <button onclick="appendChip('q2-answer', 'anxiety makes it hard to make quick decisions')" class="chip-btn bg-white hover:bg-indigo-100 border border-indigo-300 text-xs font-semibold px-2.5 py-1 rounded-lg">anxiety prevents quick decisions</button>
+                        <button onclick="appendChip('q2-answer', 'panicking might endanger patients')" class="chip-btn bg-white hover:bg-indigo-100 border border-indigo-300 text-xs font-semibold px-2.5 py-1 rounded-lg">panicking endangers patients</button>
+                    </div>
+
+                    <textarea id="q2-answer" rows="2" placeholder="Write or complete your justification here..." class="w-full p-3 rounded-xl border-2 border-indigo-200 text-sm focus:outline-none focus:border-indigo-500 font-medium text-slate-800"></textarea>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button onclick="goToStep(2)" class="text-slate-500 font-bold text-sm hover:underline">← Back</button>
+                <button onclick="submitStep3()" class="pulse-btn bg-purple-600 text-white font-extrabold px-8 py-3 rounded-2xl shadow-md border-b-4 border-purple-800 flex items-center space-x-2">
+                    <span>Enter Balloon Arena</span>
+                    <i class="fa-solid fa-hot-tub-person"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 4: HOT AIR BALLOON GAME ================= -->
+        <section id="screen-step4" class="hidden glass-card rounded-3xl p-6 md:p-8 my-4">
+            <div class="text-center mb-4">
+                <span class="bg-rose-100 text-rose-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Final Challenge</span>
+                <h2 class="text-3xl font-extrabold text-indigo-950 mt-1">🎈 The Hot Air Balloon Survival Debate!</h2>
+                <p class="text-xs md:text-sm text-slate-600">The balloon is losing altitude! Defend why YOUR profession is essential and MUST remain on board!</p>
+            </div>
+
+            <!-- Visual Simulation Box -->
+            <div class="relative bg-gradient-to-b from-sky-300 via-indigo-200 to-amber-100 rounded-2xl p-6 mb-6 overflow-hidden border-4 border-sky-400 min-h-[220px] flex flex-col justify-between">
+                
+                <!-- Clouds -->
+                <div class="absolute top-2 left-6 text-white/70 text-4xl">☁️</div>
+                <div class="absolute top-8 right-12 text-white/70 text-5xl">☁️</div>
+
+                <!-- Balloon Container -->
+                <div id="balloon-visual" class="balloon-float text-center mx-auto my-2 transition-all duration-700">
+                    <div class="text-6xl md:text-7xl drop-shadow-lg">🎈</div>
+                    <div class="bg-amber-900 text-amber-100 font-bold text-xs px-4 py-1.5 rounded-lg shadow-lg border border-amber-700 flex items-center space-x-2 justify-center">
+                        <span id="balloon-passengers">👩‍🚒 ⚽ 📚 👨‍💼</span>
+                    </div>
+                </div>
+
+                <!-- Altitude Gauge Bar -->
+                <div class="bg-white/90 backdrop-blur p-3 rounded-xl border border-sky-300 flex items-center space-x-3">
+                    <span class="font-extrabold text-xs text-sky-900">ALTITUDE:</span>
+                    <div class="grow bg-slate-200 rounded-full h-3 overflow-hidden">
+                        <div id="altitude-bar" class="bg-gradient-to-r from-red-500 via-amber-400 to-emerald-500 h-full w-3/4 transition-all duration-500"></div>
+                    </div>
+                    <span id="altitude-text" class="font-black text-xs text-indigo-900">75% (Warning!)</span>
+                </div>
+            </div>
+
+            <!-- Speech & Argument Construction -->
+            <div id="game-debate-box" class="bg-indigo-50/80 p-5 rounded-2xl border-2 border-indigo-200 mb-6">
+                <p class="font-extrabold text-indigo-950 text-sm mb-2">Deliver your 30-second speech to convince the crew to keep you:</p>
+                
+                <!-- Quick Argument Synthesizer -->
+                <div class="bg-white p-3.5 rounded-xl border border-indigo-200 text-sm font-semibold text-indigo-900 mb-3 shadow-sm leading-relaxed" id="debate-pitch-box">
+                    "My fellow passengers, I am a <span id="pitch-job" class="text-indigo-600 font-bold">[Job]</span>. You must keep me in the balloon because..."
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-indigo-800">Choose your strongest argument tactic:</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                        <button onclick="selectTactic('safety')" class="tactic-btn text-xs font-bold bg-white hover:bg-indigo-100 border border-indigo-300 p-2.5 rounded-xl text-left text-indigo-900 transition">
+                            🛡️ <b>Safety & Lives:</b> "I protect human lives during urgent emergencies."
+                        </button>
+                        <button onclick="selectTactic('society')" class="tactic-btn text-xs font-bold bg-white hover:bg-indigo-100 border border-indigo-300 p-2.5 rounded-xl text-left text-indigo-900 transition">
+                            🌍 <b>Society & Order:</b> "I help organize society, knowledge, and community well-being."
+                        </button>
+                        <button onclick="selectTactic('health')" class="tactic-btn text-xs font-bold bg-white hover:bg-indigo-100 border border-indigo-300 p-2.5 rounded-xl text-left text-indigo-900 transition">
+                            💪 <b>Health & Inspiration:</b> "I inspire health, happiness, and mental strength."
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button onclick="goToStep(3)" class="text-slate-500 font-bold text-sm hover:underline">← Back</button>
+                <button id="vote-btn" onclick="triggerBalloonVote()" class="pulse-btn bg-gradient-to-r from-rose-500 to-amber-500 text-white font-extrabold px-8 py-3.5 rounded-2xl shadow-lg border-b-4 border-rose-700 flex items-center space-x-2">
+                    <span>CAST VOTES & FLY TO SAFETY!</span>
+                    <i class="fa-solid fa-check-to-slot"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= STEP 5: FINAL REPORT & CERTIFICATE ================= -->
+        <section id="screen-summary" class="hidden glass-card rounded-3xl p-6 md:p-10 my-4 text-center">
+            <div class="inline-block p-4 bg-amber-100 text-amber-600 rounded-full text-5xl mb-3 badge-glow">
+                🏆
+            </div>
+            <h2 class="text-3xl md:text-4xl font-black text-indigo-950 mb-1">MISSION ACCOMPLISHED!</h2>
+            <p class="text-slate-600 font-medium text-sm mb-6">You have successfully defended your profession and completed today's lesson!</p>
+
+            <!-- Student Certificate / Card -->
+            <div class="max-w-xl mx-auto bg-white p-6 rounded-2xl border-4 border-amber-300 shadow-xl text-left mb-6">
+                <div class="flex justify-between items-start border-b-2 border-slate-100 pb-4 mb-4">
+                    <div>
+                        <p class="text-xs font-extrabold text-amber-600 uppercase tracking-widest">CIVIC & CAREER PASSPORT</p>
+                        <h3 id="cert-name" class="text-2xl font-black text-indigo-950">Student Name</h3>
+                        <p id="cert-job" class="text-sm font-bold text-indigo-600">Profession</p>
+                    </div>
+                    <span id="cert-avatar" class="text-4xl bg-indigo-50 p-2 rounded-xl">👤</span>
+                </div>
+
+                <div class="space-y-3 text-xs md:text-sm">
+                    <div>
+                        <span class="font-bold text-slate-500 block">Required Traits Identified:</span>
+                        <p id="cert-traits" class="font-semibold text-slate-800">1. Fit, 2. Brave, 3. Quick-thinking</p>
+                    </div>
+                    <div>
+                        <span class="font-bold text-slate-500 block">Complex Question Justification:</span>
+                        <p id="cert-complex" class="font-medium text-slate-700 italic bg-slate-50 p-2.5 rounded-lg border">"Anxious paramedics panics under pressure..."</p>
+                    </div>
+                    <div class="flex justify-between items-center bg-amber-50 p-3 rounded-xl border border-amber-200">
+                        <span class="font-bold text-amber-900">Balloon Survival Result:</span>
+                        <span class="font-black text-emerald-600 text-sm">SURVIVED & SAVED! 🎉</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition flex items-center space-x-2 text-sm">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Print / Save Summary</span>
+                </button>
+                <button onclick="location.reload()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-6 py-3 rounded-xl transition text-sm">
+                    Play Again 🔄
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- AUDIO SYNTH & LOGIC -->
+    <script>
+        // Game State
+        const gameState = {
+            name: 'Student',
+            avatar: '👨‍🚒',
+            xp: 0,
+            chosenJob: '',
+            chosenJobIcon: '',
+            traits: [],
+            q1Answer: '',
+            q2Answer: '',
+            selectedTactic: '',
+            matchScore: 0
+        };
+
+        const professionsData = [
+            { id: 'firefighter', name: 'Firefighter', icon: '👨‍🚒', trait: 'Brave & Fit', reason: 'needs to rescue people from dangerous fires.' },
+            { id: 'footballer', name: 'Football Player', icon: '⚽', trait: 'Fit & Agile', reason: 'needs to run fast around the pitch for 90 minutes.' },
+            { id: 'paramedic', name: 'Paramedic', icon: '🚑', trait: 'Calm & Quick-thinking', reason: 'needs to provide emergency medical care without panicking.' },
+            { id: 'librarian', name: 'Librarian', icon: '📚', trait: 'Organized & Helpful', reason: 'needs to categorize books and assist readers efficiently.' },
+            { id: 'politician', name: 'Politician', icon: '👨‍💼', trait: 'Eloquent & Charismatic', reason: 'needs to communicate policies and inspire citizens.' }
+        ];
+
+        // Sound FX Generator using Web Audio API
+        function playSound(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'click') {
+                    osc.frequency.setValueAtTime(400, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.05);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(783.99, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'win') {
+                    [523.25, 659.25, 783.99, 1046.50].forEach((f, idx) => {
+                        const o = ctx.createOscillator();
+                        const g = ctx.createGain();
+                        o.connect(g);
+                        g.connect(ctx.destination);
+                        o.frequency.setValueAtTime(f, ctx.currentTime + idx * 0.1);
+                        g.gain.setValueAtTime(0.08, ctx.currentTime + idx * 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.1 + 0.2);
+                        o.start(ctx.currentTime + idx * 0.1);
+                        o.stop(ctx.currentTime + idx * 0.1 + 0.2);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        // Text-to-Speech Helper (for Listening Skill 1.1.5)
+        function readText(elementId) {
+            const text = document.getElementById(elementId).innerText || document.getElementById(elementId).value;
+            if ('speechSynthesis' in window && text) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9; // Slightly slower for A1-B1 learners
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function selectAvatar(emoji, btn) {
+            playSound('click');
+            document.querySelectorAll('.avatar-btn').forEach(b => b.classList.remove('border-indigo-500', 'bg-indigo-100'));
+            btn.classList.add('border-indigo-500', 'bg-indigo-100');
+            gameState.avatar = emoji;
+        }
+
+        function startApp() {
+            const inputName = document.getElementById('student-name').value.trim();
+            if (!inputName) {
+                alert('Please enter your name!');
+                return;
+            }
+            playSound('success');
+            gameState.name = inputName;
+            document.getElementById('player-name-display').innerText = gameState.name;
+            document.getElementById('player-avatar-icon').innerText = gameState.avatar;
+            document.getElementById('player-status-bar').classList.remove('hidden');
+            document.getElementById('quest-progress').classList.remove('hidden');
+
+            document.getElementById('screen-login').classList.add('hidden');
+            renderMatchingGame();
+            goToStep(1);
+            addXP(50);
+        }
+
+        function addXP(amount) {
+            gameState.xp += amount;
+            document.getElementById('player-xp').innerText = `${gameState.xp} XP`;
+        }
+
+        function goToStep(stepNum) {
+            playSound('click');
+            document.querySelectorAll('section[id^="screen-step"]').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`screen-step${stepNum}`).classList.remove('hidden');
+
+            // Update Progress Bar
+            const percent = stepNum * 25;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+
+            for (let i = 1; i <= 4; i++) {
+                const ind = document.getElementById(`step-${i}-indicator`);
+                if (i <= stepNum) {
+                    ind.classList.remove('opacity-60');
+                    ind.classList.add('text-amber-300', 'font-black');
+                } else {
+                    ind.classList.add('opacity-60');
+                    ind.classList.remove('text-amber-300', 'font-black');
+                }
+            }
+
+            if (stepNum === 2) renderCareerSelector();
+        }
+
+        // STEP 1: Matching Game
+        function renderMatchingGame() {
+            const container = document.getElementById('matching-cards');
+            container.innerHTML = '';
+
+            professionsData.slice(0, 4).forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-2xl border-2 border-indigo-100 shadow-sm flex flex-col justify-between";
+                card.innerHTML = `
+                    <div class="flex items-center space-x-3 mb-2">
+                        <span class="text-3xl">${item.icon}</span>
+                        <div>
+                            <p class="font-extrabold text-indigo-950 text-base">${item.name}</p>
+                            <p class="text-xs text-indigo-600 font-semibold">${item.trait}</p>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Complete the justification:</label>
+                        <select onchange="checkMatch(this, '${item.id}')" class="w-full bg-indigo-50 border border-indigo-200 rounded-xl p-2 text-xs font-semibold text-indigo-900 focus:outline-none">
+                            <option value="">-- Select reason why --</option>
+                            <option value="firefighter">needs to rescue people from dangerous fires.</option>
+                            <option value="footballer">needs to run fast around the pitch for 90 minutes.</option>
+                            <option value="paramedic">needs to provide emergency medical care without panicking.</option>
+                            <option value="librarian">needs to categorize books and assist readers efficiently.</option>
+                        </select>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function checkMatch(selectEl, correctId) {
+            if (selectEl.value === correctId) {
+                playSound('success');
+                selectEl.classList.remove('bg-indigo-50', 'border-indigo-200');
+                selectEl.classList.add('bg-emerald-100', 'border-emerald-400', 'text-emerald-900');
+                selectEl.disabled = true;
+                gameState.matchScore += 1;
+                document.getElementById('match-score').innerText = gameState.matchScore;
+                addXP(30);
+
+                if (gameState.matchScore >= 4) {
+                    const btn = document.getElementById('next-step1-btn');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            } else if (selectEl.value !== "") {
+                playSound('wrong');
+                selectEl.classList.add('bg-rose-100', 'border-rose-400');
+            }
+        }
+
+        // STEP 2: Career Selector
+        function renderCareerSelector() {
+            const container = document.getElementById('career-selector');
+            container.innerHTML = '';
+
+            professionsData.forEach(item => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `career-card-btn border-2 border-indigo-200 bg-white hover:bg-indigo-50 p-3 rounded-2xl flex flex-col items-center justify-center transition text-center`;
+                btn.onclick = () => selectCareer(item, btn);
+                btn.innerHTML = `
+                    <span class="text-3xl mb-1">${item.icon}</span>
+                    <span class="font-bold text-xs text-indigo-950">${item.name}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectCareer(item, btn) {
+            playSound('click');
+            document.querySelectorAll('.career-card-btn').forEach(b => b.classList.remove('border-indigo-600', 'bg-indigo-100', 'ring-2', 'ring-indigo-400'));
+            btn.classList.add('border-indigo-600', 'bg-indigo-100', 'ring-2', 'ring-indigo-400');
+
+            gameState.chosenJob = item.name;
+            gameState.chosenJobIcon = item.icon;
+            document.getElementById('player-role-display').innerText = item.name;
+
+            updateSpeechPreview();
+        }
+
+        function updateSpeechPreview() {
+            const job = gameState.chosenJob || '[Chosen Profession]';
+            const t1 = document.getElementById('trait-1-select').selectedOptions[0].text;
+            const t2 = document.getElementById('trait-2-select').selectedOptions[0].text;
+            const t3 = document.getElementById('trait-3-select').selectedOptions[0].text;
+
+            const preview = `I would be best at being a ${job} because I am ${t1}, ${t2}, and ${t3}.`;
+            document.getElementById('speaking-pitch-preview').innerText = preview;
+            document.getElementById('pitch-job').innerText = job;
+        }
+
+        // Attach listeners for dynamic updating
+        ['trait-1-select', 'trait-2-select', 'trait-3-select'].forEach(id => {
+            document.getElementById(id).addEventListener('change', updateSpeechPreview);
+        });
+
+        function submitStep2() {
+            if (!gameState.chosenJob) {
+                alert('Please select a profession first!');
+                return;
+            }
+            playSound('success');
+            addXP(100);
+            goToStep(3);
+        }
+
+        // STEP 3: Complex Question Helpers
+        function appendChip(targetId, text) {
+            playSound('click');
+            const field = document.getElementById(targetId);
+            if (field.value.trim().length === 0) {
+                field.value = text;
+            } else {
+                field.value += `, and ${text}`;
+            }
+        }
+
+        function submitStep3() {
+            gameState.q1Answer = document.getElementById('q1-answer').value.trim();
+            gameState.q2Answer = document.getElementById('q2-answer').value.trim();
+
+            if (!gameState.q1Answer || !gameState.q2Answer) {
+                alert('Please write or select answers for both questions to proceed!');
+                return;
+            }
+
+            playSound('success');
+            addXP(100);
+            goToStep(4);
+        }
+
+        // STEP 4: Hot Air Balloon Simulation
+        function selectTactic(type) {
+            playSound('click');
+            gameState.selectedTactic = type;
+            const pitchBox = document.getElementById('debate-pitch-box');
+
+            if (type === 'safety') {
+                pitchBox.innerText = `"My fellow passengers, I am a ${gameState.chosenJob}. You must keep me in the balloon because my emergency skills keep everyone safe and alive!"`;
+            } else if (type === 'society') {
+                pitchBox.innerText = `"My fellow passengers, I am a ${gameState.chosenJob}. You must keep me in the balloon because I maintain order, knowledge, and structure in society!"`;
+            } else {
+                pitchBox.innerText = `"My fellow passengers, I am a ${gameState.chosenJob}. You must keep me in the balloon because I inspire health, fitness, and happiness!"`;
+            }
+        }
+
+        function triggerBalloonVote() {
+            if (!gameState.selectedTactic) {
+                alert('Please select your argument tactic first!');
+                return;
+            }
+
+            playSound('win');
+            
+            // Animate Balloon Rising
+            const balloon = document.getElementById('balloon-visual');
+            const altBar = document.getElementById('altitude-bar');
+            const altText = document.getElementById('altitude-text');
+
+            altBar.style.width = '100%';
+            altBar.classList.remove('from-red-500');
+            altBar.classList.add('from-emerald-400', 'to-teal-500');
+            altText.innerText = '100% (SAFE & STABLE!)';
+            altText.classList.remove('text-indigo-900');
+            altText.classList.add('text-emerald-700');
+
+            balloon.style.transform = 'translateY(-40px) scale(1.1)';
+
+            setTimeout(() => {
+                showFinalSummary();
+            }, 1800);
+        }
+
+        function showFinalSummary() {
+            document.querySelectorAll('section[id^="screen-step"]').forEach(s => s.classList.add('hidden'));
+            document.getElementById('quest-progress').classList.add('hidden');
+            document.getElementById('screen-summary').classList.remove('hidden');
+
+            document.getElementById('cert-name').innerText = gameState.name;
+            document.getElementById('cert-job').innerText = `${gameState.chosenJobIcon} ${gameState.chosenJob}`;
+            document.getElementById('cert-avatar').innerText = gameState.avatar;
+
+            const t1 = document.getElementById('trait-1-select').selectedOptions[0].text;
+            const t2 = document.getElementById('trait-2-select').selectedOptions[0].text;
+            const t3 = document.getElementById('trait-3-select').selectedOptions[0].text;
+            document.getElementById('cert-traits').innerText = `1. ${t1}, 2. ${t2}, 3. ${t3}`;
+
+            document.getElementById('cert-complex').innerText = `Q2 Answer: "${gameState.q2Answer}"`;
+            
+            addXP(200);
+        }
+    </script>
+</body>
+</html>
